@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Habit Tracker</title>
+    <link rel="icon" type="image/png" href="./sakura.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            background-image: url("cloud.jpg");
+            background-size: cover;
+            background-color: rgb(225,227,227);
+            background-blend-mode: lighten;
+            text-align: center;
+            font-family: "Cherry Bomb One", cursive;
+        }
+
+        #title {
+            margin-top: 100px;
+            line-height: 10px;
+        }
+
+        #subtitle {
+            opacity: 0.7;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        #calendarContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #calendarDiv { 
+            background-color: white;
+            border-radius: 10px 10px 20px 20px;
+            margin: auto;
+            align-content: center;
+            text-align: center;  
+        }
+
+        #calendarHeading {
+            display: flex;
+            justify-content: space-between;
+            border-radius: 10px 10px 0px 0px;
+            background-color: #ffb6c1;
+            padding: 0px 20px;
+            font-size: 20px;
+            line-height: 0px; 
+        }
+
+        #calendarContainer {
+            padding: 20px;
+        }
+
+        #tracker {
+            text-align: center;
+        }
+
+        .days {
+            display: flex;
+            justify-content: center;
+        }
+
+        .day {
+            width: 30px;
+            margin: 3px;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 20px; 
+            text-align: center;
+            cursor: pointer;
+        }
+    
+        #reset-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            font-family: 'Cherry Bomb One', cursive;
+            color: white;
+            background-color: #ffb6c1;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #reset-button:hover {
+            background-color: #ff99aa;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="title">Month</h1> 
+    <h2 id="subtitle">Monthly Habit Tracker</h2>
+    
+    <div id="calendarContainer">
+        <div id="calendarDiv">
+            <div id="calendarHeading">
+                <p id="habitTitle">My New Habit</p>
+                <p id="totalDays">0/31</p>
+            </div>
+            
+            <div id="calendarContainer">
+                <div id="tracker">
+                    <div class="days">
+                        <div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div>
+                    </div>
+                    <div class="days">
+                        <div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div>
+                    </div>
+                    <div class="days">
+                        <div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div>
+                    </div>
+                    <div class="days">
+                        <div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div>
+                    </div>
+                    <div class="days">
+                        <div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div><div class="day">1</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button id="reset-button">RESET</button>
+
+    <script>
+        // 1. DATE VARIABLES
+        var date = new Date(); 
+        var currentMonth = date.getMonth(); 
+        var currentYear = date.getFullYear();
+        var months = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // 2. UPDATE MONTH TITLE
+        var title = document.getElementById("title");
+        title.innerHTML = months[currentMonth];
+
+        // 3. HABIT TITLE CLICK
+        var habitTitle = document.getElementById("habitTitle");
+        habitTitle.onclick = function() {
+            let habits = prompt("What's your habit?", habitTitle.innerHTML); 
+            if (habits.length == 0) {   
+                habitTitle.innerHTML = "Click to set your habit!"; 
+            } else {    
+                habitTitle.innerHTML = habits; 
+            }
+        }
+
+        // 4. DATE LOGIC FOR DAYS
+        var currentDate = date.getDate();
+        var dayInTheMonthList = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        var dayInThisMonth = dayInTheMonthList[currentMonth]; 
+
+        var dayCounter = 0; 
+        var rowCount = 0; 
+        var days = document.getElementsByClassName("days");
+
+        for (var i = 0; i < days.length; i++) {         
+            var day = days[rowCount].getElementsByClassName("day");     
+            for (var j = 0; j < day.length; j++) {      
+
+                if (dayCounter == currentDate - 1) {
+                    day[j].setAttribute("style", "color: rgb(234, 1, 144); border: 2px solid black;");
+                }
+                if (dayCounter < dayInThisMonth) {
+                    day[j].innerHTML = dayCounter + 1; 
+                    day[j].setAttribute("id", "day" + (dayCounter + 1)); 
+                    dayCounter++;   
+                } else {
+                    day[j].innerHTML = ""; 
+                    day[j].setAttribute("style", "background-color: white"); 
+                }
+            }
+            rowCount++; 
+        }
+
+        // 5. INITIALIZE STORAGE
+        var daysCompleted = 0; 
+        var totalDays = document.getElementById("totalDays");
+
+        for(var i = 0; i < dayInThisMonth; i++) {
+            var tempString = "" + (currentMonth + 1) + "-" + (i + 1) + "-" + currentYear; 
+            var tempDay = localStorage.getItem(tempString);     
+
+            if(tempDay == null || tempDay == "false") {       
+                localStorage.setItem(tempString, "false");
+            }
+            else if(tempDay == "true") {
+                daysCompleted++; 
+            }
+
+            totalDays.innerHTML = daysCompleted + "/" + dayInThisMonth; 
+        }
+
+        // 6. UPDATE CALENDAR BASED ON SAVED STORAGE
+        for(var i = 0; i < dayInThisMonth; i++) {
+            var tempString = "" + (currentMonth + 1) + "-" + (i + 1) + "-" + currentYear;   
+            var chooseDay = localStorage.getItem(tempString);       
+            var chosenDivDay = document.getElementById("day" + (i + 1));    
+            if(chooseDay === "true") {
+                chosenDivDay.style.backgroundColor = "pink";    
+            } else if (chooseDay === "false") {
+                chosenDivDay.style.backgroundColor = "white";
+            }
+        }
+
+        // 7. CLICK EVENTS FOR EACH DAY
+        var dayDivs = document.querySelectorAll(".day");
+        for(var i = 0; i < dayInThisMonth; i++) {
+            dayDivs[i].onclick = function(e) {
+                var num = e.target.innerText;   
+                var selectedDate = document.getElementById(e.target.id);      
+                var storageString = "" + (currentMonth + 1) + "-" + num + "-" + currentYear; 
+                
+                if(localStorage.getItem(storageString) === "false") {
+                    selectedDate.style.backgroundColor = "pink";
+                    localStorage.setItem(storageString, "true"); 
+                    daysCompleted++;
+                } else if(localStorage.getItem(storageString) === "true") {
+                    selectedDate.style.backgroundColor = "white"; 
+                    localStorage.setItem(storageString, "false"); 
+                    daysCompleted--; 
+                }
+
+                totalDays.innerHTML = daysCompleted + "/" + dayInThisMonth; 
+                if(daysCompleted === currentDate) {
+                    alert("Great progress! Keep up the great work!");
+                }
+            }
+        }
+
+        // 8. RESET BUTTON
+        document.getElementById("reset-button").onclick = function() {
+            for(var i = 0; i < dayInThisMonth; i++) {
+                var tempString = "" + (currentMonth + 1) + "-" + (i + 1) + "-" + currentYear; 
+                localStorage.setItem(tempString, "false");
+                document.getElementById("day" + (i + 1)).style.backgroundColor = "white";
+            }
+            daysCompleted = 0;
+            totalDays.innerHTML = daysCompleted + "/" + dayInThisMonth; 
+        }
+    </script>
+</body>
+</html>
